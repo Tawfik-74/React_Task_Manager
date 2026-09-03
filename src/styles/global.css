@@ -1,0 +1,789 @@
+/* ==================================================================
+   TaskFlow — "Fridge Door" family theme
+   The note-covered kitchen fridge, moved onto a screen.
+   One committed visual world: every colour is painted explicitly,
+   so the UI holds on a light or dark host background.
+   Type: Fredoka (display/UI) · Caveat (handwritten) · Figtree (text)
+   ================================================================== */
+
+:root {
+  /* Paper + magnets */
+  --paper: #fdf4e3;
+  --paper-2: #f7ecd6;
+  --paper-line: rgba(58, 52, 42, 0.1);
+  --tape: rgba(233, 213, 255, 0.55);
+
+  /* Fridge shell */
+  --fridge-top: #eef1f2;
+  --fridge-bottom: #dfe4e5;
+  --fridge-speck: rgba(255, 255, 255, 0.55);
+
+  /* Family palette */
+  --tomato: #e5502f;
+  --tomato-deep: #c23c1e;
+  --marigold: #e6982f;
+  --marigold-soft: #f7e6c4;
+  --sky: #3a8fbd;
+  --sky-soft: #dcecf4;
+  --garden: #5c9a63;
+  --garden-soft: #e0efe1;
+
+  /* Ink */
+  --ink: #3a342a;
+  --ink-soft: #857c6b;
+  --ink-faint: #a99f8c;
+
+  --danger: #cf4636;
+
+  --note-shadow: 0 8px 16px -10px rgba(40, 30, 15, 0.45);
+  --note-shadow-lift: 0 16px 26px -12px rgba(40, 30, 15, 0.5);
+
+  --font-display: "Fredoka", "Segoe UI", system-ui, sans-serif;
+  --font-hand: "Caveat", "Segoe Print", cursive;
+  --font-text: "Figtree", system-ui, -apple-system, sans-serif;
+
+  --content-width: 1060px;
+  --radius-note: 4px;
+  --radius-pill: 999px;
+
+  color-scheme: light;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Reset                                                              */
+/* ------------------------------------------------------------------ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--font-text);
+  color: var(--ink);
+  background-color: var(--fridge-bottom);
+  background-image:
+    radial-gradient(circle at 50% 50%, var(--fridge-speck) 0 1.4px, transparent 1.8px),
+    linear-gradient(180deg, var(--fridge-top), var(--fridge-bottom) 65%, #d7dcdd);
+  background-size: 24px 24px, 100% 100%;
+  background-attachment: fixed;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 3px solid var(--sky);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  App shell                                                          */
+/* ------------------------------------------------------------------ */
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app__main {
+  width: 100%;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  flex: 1;
+  padding: 1.5rem 1rem 3rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.app__panel {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.app__sidebar {
+  min-width: 0;
+}
+
+.app__footer {
+  text-align: center;
+  padding: 1.5rem 1rem 2.5rem;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+}
+
+.app__footer p {
+  margin: 0;
+}
+
+@media (min-width: 900px) {
+  .app__main {
+    padding: 2.25rem 1.5rem 4rem;
+    grid-template-columns: minmax(0, 1.62fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 2rem;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Header — a taped-up paper note on the fridge                       */
+/* ------------------------------------------------------------------ */
+
+.header {
+  padding: 1.75rem 1rem 0.5rem;
+}
+
+.header__inner {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(
+    180deg,
+    transparent 0 27px,
+    var(--paper-line) 27px 28px
+  );
+  border-radius: var(--radius-note);
+  box-shadow: var(--note-shadow);
+  padding: 1.15rem 1.4rem 1.35rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  transform: rotate(-0.9deg);
+}
+
+.header__inner::before {
+  /* strip of tape */
+  content: "";
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  width: 96px;
+  height: 22px;
+  transform: translateX(-50%) rotate(2.5deg);
+  background-color: var(--tape);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.14);
+}
+
+.header__mark {
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #fff;
+  background-color: var(--tomato);
+  border-radius: 50%;
+  box-shadow: 0 4px 10px -4px rgba(197, 60, 30, 0.7);
+  transform: rotate(4deg);
+}
+
+.header__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.75rem;
+  letter-spacing: -0.01em;
+  color: var(--tomato);
+  line-height: 1.05;
+}
+
+.header__subtitle {
+  margin: 0.15rem 0 0;
+  font-family: var(--font-hand);
+  font-size: 1.3rem;
+  color: var(--ink-soft);
+}
+
+@media (min-width: 900px) {
+  .header__title {
+    font-size: 2rem;
+  }
+  .header__subtitle {
+    font-size: 1.45rem;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Task summary — three little paper chits under magnets              */
+/* ------------------------------------------------------------------ */
+
+.summary {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.7rem;
+}
+
+.summary__card {
+  margin: 0;
+  padding: 0.95rem 0.6rem 0.8rem;
+  text-align: center;
+  background-color: var(--paper);
+  border-radius: var(--radius-note);
+  box-shadow: var(--note-shadow);
+  position: relative;
+}
+
+.summary__card:nth-child(odd) {
+  transform: rotate(-1deg);
+}
+.summary__card:nth-child(even) {
+  transform: rotate(1.1deg);
+}
+
+.summary__card::before {
+  /* magnet */
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.28), inset 0 -2px 3px rgba(0, 0, 0, 0.2);
+}
+
+.summary__card--total::before {
+  background-color: var(--sky);
+}
+.summary__card--completed::before {
+  background-color: var(--garden);
+}
+.summary__card--remaining::before {
+  background-color: var(--marigold);
+}
+
+.summary__label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+}
+
+.summary__value {
+  margin: 0.15rem 0 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.7rem;
+  line-height: 1;
+  color: var(--ink);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Add task — write a new note and stick it up                        */
+/* ------------------------------------------------------------------ */
+
+.add-task {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background-color: var(--paper);
+  border-radius: var(--radius-note);
+  box-shadow: var(--note-shadow);
+  padding: 1rem 1.1rem 1.1rem;
+}
+
+.add-task__label {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+.add-task__row {
+  display: flex;
+  gap: 0.55rem;
+}
+
+.add-task__input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.65rem 0.85rem;
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+  color: var(--ink);
+  background-color: #fffdf7;
+  border: 1.5px solid var(--paper-line);
+  border-radius: var(--radius-note);
+}
+
+.add-task__input::placeholder {
+  color: var(--ink-faint);
+}
+
+.add-task__input:focus-visible {
+  border-color: var(--sky);
+  outline-offset: 0;
+}
+
+.add-task__input[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+
+.add-task__submit {
+  padding: 0.6rem 1.3rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #fff;
+  background-color: var(--tomato);
+  border: none;
+  border-radius: var(--radius-note);
+  box-shadow: 0 4px 10px -5px rgba(197, 60, 30, 0.8);
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.add-task__submit:hover {
+  background-color: var(--tomato-deep);
+  transform: translateY(-1px);
+}
+
+.add-task__error {
+  margin: 0;
+  font-family: var(--font-hand);
+  font-size: 1.05rem;
+  color: var(--danger);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Filters                                                            */
+/* ------------------------------------------------------------------ */
+
+.filters {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filters__button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.95rem;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  background-color: rgba(255, 255, 255, 0.72);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 3px 8px -6px rgba(40, 30, 15, 0.5);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.filters__button:hover {
+  color: var(--ink);
+}
+
+.filters__button--active {
+  color: #fff;
+  background-color: var(--sky);
+  border-color: var(--sky);
+}
+
+.filters__count {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.05rem 0.45rem;
+  border-radius: var(--radius-pill);
+  background-color: rgba(58, 52, 42, 0.12);
+  color: var(--ink-soft);
+}
+
+.filters__button--active .filters__count {
+  background-color: rgba(255, 255, 255, 0.28);
+  color: #fff;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Task list — paper notes on the fridge                              */
+/* ------------------------------------------------------------------ */
+
+.tasklist {
+  list-style: none;
+  margin: 0;
+  padding: 0.25rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.75rem 0.9rem;
+  background-color: var(--paper);
+  border-radius: var(--radius-note);
+  box-shadow: var(--note-shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.task:nth-child(odd) {
+  transform: rotate(0.7deg);
+}
+.task:nth-child(even) {
+  transform: rotate(-0.6deg);
+}
+
+.task:hover {
+  transform: rotate(0deg) translateY(-2px);
+  box-shadow: var(--note-shadow-lift);
+}
+
+.task--completed {
+  background-color: var(--garden-soft);
+}
+
+.task__toggle {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  cursor: pointer;
+}
+
+.task__checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  flex-shrink: 0;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin: 0;
+  border: 2px solid var(--tomato);
+  border-radius: 50%;
+  background-color: #fffdf7;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.task__checkbox::after {
+  content: "✓";
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+  opacity: 0;
+}
+
+.task__checkbox:checked {
+  background-color: var(--garden);
+  border-color: var(--garden);
+}
+
+.task__checkbox:checked::after {
+  opacity: 1;
+}
+
+.task__title {
+  font-family: var(--font-hand);
+  font-size: 1.25rem;
+  line-height: 1.15;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.task--completed .task__title {
+  text-decoration: line-through;
+  color: var(--ink-soft);
+}
+
+.task__badge {
+  flex-shrink: 0;
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-pill);
+}
+
+.task__badge--pending {
+  color: var(--marigold);
+  background-color: var(--marigold-soft);
+}
+
+.task__badge--completed {
+  color: var(--garden);
+  background-color: var(--garden-soft);
+}
+
+.task__delete {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+  background-color: transparent;
+  border: none;
+  border-radius: 50%;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.task__delete:hover {
+  color: var(--danger);
+  background-color: rgba(207, 70, 54, 0.12);
+}
+
+/* Notices: loading / error / empty */
+.tasklist__notice {
+  margin: 0;
+  padding: 2.25rem 1.25rem;
+  text-align: center;
+  font-family: var(--font-hand);
+  font-size: 1.25rem;
+  color: var(--ink-soft);
+  background-color: rgba(253, 244, 227, 0.75);
+  border: 2px dashed var(--ink-faint);
+  border-radius: var(--radius-note);
+}
+
+.tasklist__notice--error {
+  color: var(--danger);
+  border-color: var(--danger);
+  background-color: rgba(207, 70, 54, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.tasklist__retry {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.5rem 1.15rem;
+  color: #fff;
+  background-color: var(--danger);
+  border: none;
+  border-radius: var(--radius-note);
+}
+
+@media (max-width: 430px) {
+  .task {
+    flex-wrap: wrap;
+  }
+  .task__toggle {
+    flex-basis: 100%;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Family board (challenge + leaderboard)                             */
+/* ------------------------------------------------------------------ */
+
+.challenge {
+  background-color: var(--marigold);
+  background-image: linear-gradient(180deg, #f2c14e, #e6982f);
+  color: #5a3d0a;
+  border-radius: var(--radius-note);
+  box-shadow: 0 14px 28px -14px rgba(40, 30, 15, 0.5);
+  padding: 1.25rem 1.25rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  transform: rotate(0.7deg);
+  position: sticky;
+  top: 1.5rem;
+}
+
+.challenge::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 26px;
+  width: 84px;
+  height: 20px;
+  transform: rotate(-4deg);
+  background-color: var(--tape);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.14);
+}
+
+.challenge__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.challenge__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #5a3d0a;
+}
+
+.challenge__reset {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.76rem;
+  color: #5a3d0a;
+  background-color: rgba(255, 255, 255, 0.55);
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  border-radius: var(--radius-pill);
+  padding: 0.3rem 0.8rem;
+  transition: background-color 0.15s ease;
+}
+
+.challenge__reset:hover {
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+.challenge__name {
+  margin: 0;
+  font-family: var(--font-hand);
+  font-size: 1.2rem;
+  color: #7a4d0a;
+}
+
+.challenge__stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.55rem;
+}
+
+.challenge__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.6rem 0.7rem;
+  background-color: rgba(255, 255, 255, 0.55);
+  border-radius: var(--radius-note);
+}
+
+.challenge__stat-value {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.3rem;
+  color: #5a3d0a;
+}
+
+.challenge__stat-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #8a6320;
+}
+
+.challenge__hint {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #7a4d0a;
+}
+
+.challenge__hint strong {
+  font-weight: 700;
+}
+
+.leaderboard {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.leaderboard__row {
+  display: grid;
+  grid-template-columns: 1.9rem 1.7rem 1fr auto auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: var(--radius-note);
+  background-color: rgba(255, 255, 255, 0.42);
+  font-size: 0.84rem;
+  color: #5a3d0a;
+}
+
+.leaderboard__row--user {
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: inset 0 0 0 2px var(--tomato);
+}
+
+.leaderboard__rank {
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+.leaderboard__avatar {
+  font-size: 1.15rem;
+  text-align: center;
+}
+
+.leaderboard__name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.leaderboard__daily,
+.leaderboard__score {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: #7a5518;
+}
+
+.leaderboard__score {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: #5a3d0a;
+}
+
+.leaderboard__unit {
+  color: #8a6320;
+}
+
+@media (max-width: 360px) {
+  .leaderboard__unit {
+    display: none;
+  }
+}
+
+@media (min-width: 900px) {
+  .challenge {
+    padding: 1.5rem 1.5rem 1.6rem;
+  }
+}
