@@ -1,83 +1,36 @@
-# TaskFlow
+# React Task Manager 🎯
 
-A responsive **React + TypeScript** task manager with a simulated
-**Group Challenge & Leaderboard** gamification layer.
+A responsive React + TypeScript task manager featuring a simulated Group Challenge & Leaderboard gamification layer. Built with strict TypeScript and a clean, scalable architecture.
 
-> Organize your tasks. Stay productive.
+🚀 **Live Demo:** [Insert Vercel/Netlify Link Here]
 
-## Features
+## ✨ Features
 
-**Core**
+**Core Functionality:**
+* **Robust Data Fetching:** Fetches seed tasks on mount with proper loading and error states—ensuring the UI never crashes and offers retry mechanisms.
+* **State Management:** Immutable state updates for adding tasks (with non-empty validation), toggling completion, and deletion.
+* **Dynamic Filtering:** Live Total / Completed / Remaining counters and views filtered by All / Pending / Completed with contextual empty states.
 
-- Fetches seed tasks from `https://dummyjson.com/todos` on mount (`useEffect`)
-- Loading and error states — the UI never crashes on a failed request, and offers a retry
-- Add tasks with non-empty validation; immutable state updates
-- Toggle complete / uncomplete, delete
-- Live Total / Completed / Remaining counters (derived state)
-- Filter by All / Pending / Completed (derived state)
-- Contextual empty states per filter
+**Gamification & Group Challenge (Bonus):**
+* **Competitive Edge:** Compete against mock friends based on daily completions and monthly scores.
+* **Leaderboard & Stats:** Ranked leaderboard displaying personal rank, current streak, and score stats.
+* **State Persistence:** Progress is persisted and cross-tab synced via `localStorage`, automatically rolling forward when the calendar day/month changes.
 
-**Bonus — Group Challenge**
+## 🛠 Architecture & Tech Stack
 
-- Compete against mock friends on daily completions and monthly score
-- Ranked leaderboard, personal rank / streak / score stats
-- Progress persisted and cross-tab synced via `localStorage`
-- Simulation rolls forward automatically when the calendar day (or month) changes
+The architecture enforces a strict separation of concerns. Business logic is entirely encapsulated within custom hooks, leaving components strictly presentational. The codebase enforces strict TypeScript with zero `any` types.
 
-## Architecture
+* **Frontend:** React, TypeScript, Vite
+* **Styling:** Vanilla CSS (Flexbox/Grid, CSS Variables, Media Queries)
+* **API Integration:** Fetch API mapping data from DummyJSON
 
-Business logic lives entirely in custom hooks; components are presentational.
-Strict TypeScript is enabled and there is no `any` in the codebase.
+## 🤖 AI Integration
 
-```
-React_Task_Manager/
-├── index.html
-├── package.json
-├── tsconfig.json
-├── tsconfig.node.json
-├── vite.config.ts
-└── src/
-    ├── main.tsx                     # React entry point
-    ├── App.tsx                      # Composition root
-    ├── vite-env.d.ts
-    ├── types/
-    │   └── index.ts                 # All shared interfaces / unions
-    ├── api/
-    │   └── tasks.ts                 # dummyjson fetch + mapping
-    ├── hooks/
-    │   ├── useLocalStorage.ts       # Generic persisted state
-    │   ├── useTasks.ts              # Task CRUD, fetch, filter, counts
-    │   └── useChallenges.ts         # Challenge state + leaderboard
-    ├── utils/
-    │   ├── date.ts                  # Date-key / same-day helpers
-    │   └── id.ts                    # Unique id generation
-    ├── components/
-    │   ├── Header.tsx
-    │   ├── TaskSummary.tsx
-    │   ├── AddTaskForm.tsx
-    │   ├── TaskFilters.tsx
-    │   ├── TaskList.tsx
-    │   ├── TaskItem.tsx
-    │   └── challenges/
-    │       ├── ChallengePanel.tsx
-    │       └── Leaderboard.tsx
-    └── styles/
-        └── global.css               # CSS variables, Flex/Grid, media queries
-```
+Generative AI (ChatGPT/Claude) was utilized during development to rapidly bootstrap standard TypeScript interfaces and optimize the initial logic for the simulated leaderboard scoring algorithm. All generated code was thoroughly reviewed, refactored for the custom hook architecture, and type-checked to ensure robust application state.
 
-## Getting started
+## 🚀 Getting Started
 
-```bash
-npm install
-npm run dev
-```
-
-Then open the printed local URL.
-
-## Scripts
-
-| Script            | Description                          |
-| ----------------- | ------------------------------------ |
-| `npm run dev`     | Start the Vite dev server           |
-| `npm run build`   | Type-check (`tsc -b`) + prod build  |
-| `npm run preview` | Preview the production build        |
+1. Clone the repository.
+2. Install dependencies:
+   ```bash
+   npm install
